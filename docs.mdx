@@ -1,0 +1,43 @@
+
+## What is MDXCMS
+
+MDXCMS is a way to generate MDX files as the content for your website outside of the main code repository. This leads to no-build changes for content (goal of CMS) but with the power to display custom React components (power of Code). 
+
+## How to use
+
+### Setup
+
+Before we get started we need to choose a backend. Here are some pros / cons:
+
+**Github Pages**
+- No API
+- About a minute for changes to propagate to production. Hot reloading less feasible.
+- Free!
+
+**MDXCMS Hosted**
+- Simple GraphQl API for reading / writing your MDX files
+- Instant hot reloading
+- Eject to content repository if you don't like it (we don't want to lock you in!) 
+
+### Module overview
+
+You can add mdxcms to your project with
+
+```
+yarn add mdxcms
+```
+
+the module is structured like:
+
+
+```
+mdxcms/
+├── backends/
+│   ├── Functions to help fetch data from various backends
+├── integrations/
+│   ├── Opinionated integrations with frameworks
+└── react/
+    ├── some handy react hooks for things like hot reloading
+```
+
+### Integrating with Next.js
