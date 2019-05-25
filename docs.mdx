@@ -43,13 +43,11 @@ If you are using (Next.js)[https://nextjs.org] then you can use the pre-built ut
 
 ```
 // pages/index.js
-
 import MDX from '@mdx-js/runtime';
-
 import useCMSReload from 'mdxcms/lib/react/useCMSReload';
 import withMDXCMS from 'mdxcms/lib/integrations/next';
 
-const Docs = ({ mdx, etag }) => {
+const Page = ({ mdx, etag }) => {
   useCMSReload(etag);
 
   return (<MDX components={MDXComponents}>{mdx}</MDX>)
@@ -58,7 +56,7 @@ const Docs = ({ mdx, etag }) => {
 export default withMDXCMS('github')({
   owner: 'wbunting',
   repo: 'mdxcms-content'
-})(Docs);
+})(Page);
 ```
 
 The `withMDXCMS` is a function that takes a backend string, currently one of `'github'` or `'mdxcms'` to determine where data will be fetched from. The second curried argument are settings for where to find the data. Minimally, you need to supply the `owner` and `repo` on Github Pages that the `.mdx` will be fetched from. The current `pages/` will grab the corresponding `.mdx` file from the root of your content repo.
