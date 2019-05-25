@@ -3,8 +3,6 @@
 
 MDXCMS is a way to generate MDX files as the content for your website outside of the main code repository. This leads to no-build changes for content (goal of CMS) but with the power to display custom React components (power of Code). 
 
-## How to use
-
 ### Setup
 
 Before we get started we need to choose a backend. Here are some pros / cons:
@@ -15,7 +13,7 @@ Before we get started we need to choose a backend. Here are some pros / cons:
 - Free!
 
 **MDXCMS Hosted**
-- Simple GraphQl API for reading / writing your MDX files
+- Simple API for reading / writing your MDX files
 - Instant hot reloading
 - Eject to content repository if you don't like it (we don't want to lock you in!) 
 
@@ -29,7 +27,6 @@ yarn add mdxcms
 
 the module is structured like:
 
-
 ```
 mdxcms/
 ├── backends/
@@ -41,3 +38,29 @@ mdxcms/
 ```
 
 ### Integrating with Next.js
+
+If you are using (Next.js)[https://nextjs.org] then you can use the pre-built utilities for data-fetching from mdxcms. Simply import onto one of your `/pages`;
+
+```
+// pages/index.js
+
+import MDX from '@mdx-js/runtime';
+
+import useCMSReload from 'mdxcms/lib/react/useCMSReload';
+import withMDXCMS from 'mdxcms/lib/integrations/next';
+
+const Docs = ({ mdx, etag }) => {
+  useCMSReload(etag);
+
+  return (<MDX components={MDXComponents}>{mdx}</MDX>)
+};
+
+export default withMDXCMS('github')({
+  owner: 'wbunting',
+  repo: 'mdxcms-content'
+})(Docs);
+```
+
+The `withMDXCMS` is a function that takes a backend string, currently one of `'github'` or `'mdxcms'` to determine where data will be fetched from. The second curried argument are settings for where to find the data. Minimally, you need to supply the `owner` and `repo` on Github Pages that the `.mdx` will be fetched from. The current `pages/` will grab the corresponding `.mdx` file from the root of your content repo.
+
+The `useCMSReload` hook is used to achieve a reload to check if there is new content on focus of the page.
